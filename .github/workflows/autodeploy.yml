@@ -29,5 +29,5 @@ jobs:
           user: ${{ secrets.USER_NAME }}
           pass: ${{ secrets.USER_PASS }}
           connect_timeout: 10s
-          local: '*'
+          local: '.'
           remote: /www/wwwroot/testblog.juanertu.com
