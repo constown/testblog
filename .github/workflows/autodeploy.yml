@@ -1,0 +1,33 @@
+# 当有改动推送到master分支时，启动Action
+name: 自动部署
+
+on:
+  push:
+    branches:
+      - main #2020年10月后github新建仓库默认分支改为main，注意更改
+
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检查分支
+        uses: actions/checkout@v2
+        with:
+          ref: mian #2020年10月后github新建仓库默认分支改为main，注意更改
+
+      - name: 部署
+        uses: cross-the-world/scp-pipeline@master
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: ${{ secrets.USER_HOST }}
+          user: ${{ secrets.USER_NAME }}
+          pass: ${{ secrets.USER_PASS }}
+          connect_timeout: 10s
+          local: './*'
+          remote: /www/wwwroot/testblog.juanertu.com
